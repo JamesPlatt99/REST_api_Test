@@ -8,8 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 
-namespace RESTful_API
+namespace MyApi
 {
     public class Startup
     {
@@ -24,6 +25,8 @@ namespace RESTful_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            var connectionString = Configuration["connectionStrings:AdventureWorksDBConnectionString"];
+            services.AddDbContext<MyApi.Context.AdventureWorks2016CTP3Context>(o => o.UseSqlServer(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
