@@ -36,6 +36,14 @@ namespace MyApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            else{
+                app.UseExceptionHandler(appbuilder =>
+                    appbuilder.Run(async context => 
+                    {
+                        context.Response.StatusCode = 500;
+                    })
+                );
+            }
             var mapper = new Helpers.Mapping();
             mapper.Configure();
             app.UseMvc();
