@@ -4,7 +4,8 @@ namespace MyApi.Models
     {
         public int ProductID;
         public decimal UnitPrice;
-        public int OrderQty;
+        public short OrderQty;
         public decimal LineTotal;
+        public int SalesOrderID;
     }
 }

@@ -3,6 +3,7 @@ using MyApi.Context;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace MyApi.Controllers
 {
@@ -36,9 +37,9 @@ namespace MyApi.Controllers
         private List<Models.SalesOrderHeaderDTO> GetSalesOrders(int customerID)
         {
             if(_context.Customer.Any(n => n.CustomerId == customerID)){
-                var query = from soh in _context.SalesOrderHeader
-                            where soh.CustomerId == customerID
-                            select Mapper.Map<Models.SalesOrderHeaderDTO>(soh);
+                var query = (from soh in _context.SalesOrderHeader
+                             where soh.CustomerId == customerID
+                             select soh).ProjectTo<Models.SalesOrderHeaderDTO>();
                 return query.ToList();
             }
             return null;
