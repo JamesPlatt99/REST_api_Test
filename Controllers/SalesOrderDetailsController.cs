@@ -28,7 +28,7 @@ namespace MyApi.Controllers
 #endregion
 
 #region  Helper Methods
-        private IEnumerable<Models.SalesOrderDetail> GetSalesOrderDetail(int salesOrderID)
+        private IEnumerable<Entities.SalesOrderDetail> GetSalesOrderDetail(int salesOrderID)
         {
             var query = from o in _context.SalesOrderDetail
                         where o.SalesOrderId == salesOrderID
