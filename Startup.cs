@@ -36,7 +36,8 @@ namespace MyApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            var mapper = new Helpers.Mapping();
+            mapper.Configure();
             app.UseMvc();
         }
     }

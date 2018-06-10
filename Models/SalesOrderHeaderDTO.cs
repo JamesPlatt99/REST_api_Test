@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace MyApi.Models
 {
-    public class SalesOrderDTO
+    public class SalesOrderHeaderDTO
     {
         public String SalesOrderNumber;
         public String Status;
         public DateTime OrderDate;
         public DateTime ShippingDate;
         public DateTime DueDate;
-        public IEnumerable<SalesOrderDetailDTO> SalesOrderDetails;
+        public IEnumerable<SalesOrderDetailDTO> SalesOrderDetail;
     }
 }
