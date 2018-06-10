@@ -6,7 +6,7 @@ using AutoMapper;
 
 namespace MyApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/customers/{customerID}/Orders")]
     public class SalesOrdersController : Controller
     {
 #region Properties
@@ -21,7 +21,7 @@ namespace MyApi.Controllers
 #endregion
 
 #region API Calls
-        [HttpGet("{CustomerID}")]
+        [HttpGet()]
         public IActionResult SalesOrders(int customerID)
         {
             var salesOrders = GetSalesOrders(customerID);
