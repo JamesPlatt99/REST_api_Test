@@ -31,14 +31,21 @@ namespace MyApi.Controllers
         private IEnumerable<Models.SalesOrderDTO> GetSalesOrders(int customerID)
         {
             var query = from soh in _context.SalesOrderHeader
-                        join sod in _context.SalesOrderDetail on soh.SalesOrderId equals sod.SalesOrderId
                         where soh.CustomerId == customerID
-                        select new Models.SalesOrderDTO{
+                        select new Models.SalesOrderDTO()
+                        {
                             OrderDate = soh.OrderDate,
                             DueDate = soh.DueDate,
                             ShippingDate = soh.ShipDate.GetValueOrDefault(),
                             SalesOrderNumber = soh.SalesOrderNumber,
-                            Status = Helpers.EnumerationExtensions.OrderStatusExtension(soh.Status)
+                            Status = Helpers.EnumerationExtensions.OrderStatusExtension(soh.Status),
+                            SalesOrderDetails = soh.SalesOrderDetail.Select(sod => new Models.SalesOrderDetailDTO()
+                            {                            
+                                UnitPrice = sod.UnitPrice,
+                                OrderQty = sod.OrderQty,
+                                LineTotal = sod.LineTotal,
+                                ProductID = sod.ProductId
+                            })
                         };
             return query;
         }
