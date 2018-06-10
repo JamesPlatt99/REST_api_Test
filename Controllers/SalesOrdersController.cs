@@ -24,17 +24,24 @@ namespace MyApi.Controllers
         [HttpGet("{CustomerID}")]
         public IActionResult SalesOrders(int customerID)
         {
-            return new JsonResult(GetSalesOrders(customerID));
+            var salesOrders = GetSalesOrders(customerID);
+            if (salesOrders != null){
+                return new JsonResult(GetSalesOrders(customerID));
+            }
+            return NotFound();
         }
 #endregion
 
 #region  Helper Methods
-        private IEnumerable<Models.SalesOrderHeaderDTO> GetSalesOrders(int customerID)
+        private List<Models.SalesOrderHeaderDTO> GetSalesOrders(int customerID)
         {
-            var query = from soh in _context.SalesOrderHeader
-                        where soh.CustomerId == customerID
-                        select Mapper.Map<Models.SalesOrderHeaderDTO>(soh);
-            return query;
+            if(_context.Customer.Any(n => n.CustomerId == customerID)){
+                var query = from soh in _context.SalesOrderHeader
+                            where soh.CustomerId == customerID
+                            select Mapper.Map<Models.SalesOrderHeaderDTO>(soh);
+                return query.ToList();
+            }
+            return null;
         }
 #endregion
 
