@@ -20,19 +20,26 @@ namespace MyApi.Controllers
 #endregion
 
 #region API Calls
-        [HttpGet("{salesOrderID}")]
-        public IActionResult SalesOrderDetails(int salesOrderID)
+        [HttpGet("{CustomerID}")]
+        public IActionResult SalesOrderDetails(int customerID)
         {
-            return new JsonResult(GetSalesOrderDetail(salesOrderID));
+            return new JsonResult(GetSalesOrderDetail(customerID));
         }
 #endregion
 
 #region  Helper Methods
-        private IEnumerable<Entities.SalesOrderDetail> GetSalesOrderDetail(int salesOrderID)
+        private IEnumerable<Models.SalesOrderDTO> GetSalesOrderDetail(int customerID)
         {
-            var query = from o in _context.SalesOrderDetail
-                        where o.SalesOrderId == salesOrderID
-                        select o;
+            var query = from soh in _context.SalesOrderHeader
+                        join sod in _context.SalesOrderDetail on soh.SalesOrderId equals sod.SalesOrderId
+                        where soh.CustomerId == customerID
+                        select new Models.SalesOrderDTO{
+                            OrderDate = soh.OrderDate,
+                            DueDate = soh.DueDate,
+                            ShippingDate = soh.ShipDate.GetValueOrDefault(),
+                            SalesOrderNumber = soh.SalesOrderNumber,
+                            Status = Helpers.EnumerationExtensions.OrderStatusExtension(soh.Status)
+                        };
             return query;
         }
 #endregion
