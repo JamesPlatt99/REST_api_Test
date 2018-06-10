@@ -6,14 +6,14 @@ using System.Linq;
 namespace MyApi.Controllers
 {
     [Route("api/[controller]")]
-    public class TestController : Controller
+    public class SalesOrderDetailsController : Controller
     {
 #region Properties
         private AdventureWorks2016CTP3Context _context;
 #endregion
 
 #region Constructor
-        public TestController(Context.AdventureWorks2016CTP3Context context)
+        public SalesOrderDetailsController(Context.AdventureWorks2016CTP3Context context)
         {
             _context = context;
         }
@@ -21,9 +21,9 @@ namespace MyApi.Controllers
 
 #region API Calls
         [HttpGet("{salesOrderID}")]
-        public IEnumerable<Models.SalesOrderDetail> SalesOrderDetails(int salesOrderID)
+        public IActionResult SalesOrderDetails(int salesOrderID)
         {
-            return GetSalesOrderDetail(salesOrderID);
+            return new JsonResult(GetSalesOrderDetail(salesOrderID));
         }
 #endregion
 
