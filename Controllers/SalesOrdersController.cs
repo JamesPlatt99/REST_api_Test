@@ -7,7 +7,7 @@ using AutoMapper.QueryableExtensions;
 
 namespace MyApi.Controllers
 {
-    [Route("api/customers/{customerID}/Orders")]
+    [Route("api/Customers/{customerID}/Orders")]
     public class SalesOrdersController : Controller
     {
 #region Properties
@@ -27,7 +27,7 @@ namespace MyApi.Controllers
         {
             var salesOrders = GetSalesOrders(customerID);
             if (salesOrders != null){
-                return new JsonResult(GetSalesOrders(customerID));
+                return Ok(GetSalesOrders(customerID));
             }
             return NotFound();
         }

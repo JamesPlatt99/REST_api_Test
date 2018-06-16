@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace MyApi
 {
@@ -24,7 +25,11 @@ namespace MyApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(setupAction =>
+            {
+                setupAction.ReturnHttpNotAcceptable = true;
+                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+            });
             var connectionString = Configuration["connectionStrings:AdventureWorksDBConnectionString"];
             services.AddDbContext<MyApi.Context.AdventureWorks2016CTP3Context>(o => o.UseSqlServer(connectionString));
         }
